@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import raisetech.studentManagement.data.Student;
 import raisetech.studentManagement.data.StudentsCourses;
 
@@ -13,13 +14,17 @@ import raisetech.studentManagement.data.StudentsCourses;
 @Mapper
 public interface StudentRepository {
 
-  @Select("SELECT * FROM students")
+  @Select("SELECT * FROM students WHERE isDeleted = false")
   List<Student> search();
 
+  @Select("SELECT * FROM students WHERE id = #{Id}")
+  Student searchStudent(String id);
+
   @Select("SELECT * FROM students_courses")
-  List<StudentsCourses> searchCourses();
+  List<StudentsCourses> searchCoursesList();
 
-
+  @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
+  List<StudentsCourses> searchCourses(String studentId);
 
 
   @Insert(
@@ -28,6 +33,17 @@ public interface StudentRepository {
   @Options(useGeneratedKeys = true,keyProperty = "id")
   void registerStudent(Student student);
 
+  @Insert("INSERT INTO students_courses(student_id,course_name,course_start_at,course_end_at)"
+  +"VALUES(#{studentId},#{courseName},#{courseStartAt},#{courseEndAt})")
+  @Options(useGeneratedKeys = true,keyProperty = "id")
+  void registerStudentsCourses(StudentsCourses studentsCourses);
 
 
+  @Update("UPDATE students "
+      + "SET name=#{name},kana_name=#{kanaName},nick_name=#{nickName},"
+      + "email=#{email},area=#{area},age=#{age},sex=#{sex},remark=#{remark},isDeleted=#{isDeleted} WHERE id = #{id}")
+  void updateStudent(Student student);
+
+  @Update("UPDATE students_courses SET course_name=#{courseName} WHERE id = #{id}")
+  void updateStudentsCourses(StudentsCourses studentsCourses);
 }
