@@ -11,9 +11,7 @@ public class TestExceptionHandler extends RuntimeException {
 
   @ExceptionHandler(TestException.class)
   public ResponseEntity<String> handleTestException(TestException ex) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).
-        body("現在のこのAPIは利用できません。URLは「studentList」ではなく「students」を利用してください。"
-            +ex.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
   }
 }
 

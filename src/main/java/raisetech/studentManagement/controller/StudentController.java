@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.studentManagement.domain.StudentDetail;
+import raisetech.studentManagement.exception.TestException;
 import raisetech.studentManagement.service.StudentService;
 
 /**
@@ -36,10 +37,17 @@ public class StudentController {
    *
    * @return  受講生詳細一覧(全件)
    */
-
+/*
   @GetMapping("/studentList")
   public List<StudentDetail> getStudentList()  {
    return service.searchStudentList();
+  }
+  */
+
+  @GetMapping("/studentList")
+  public List<StudentDetail> getStudentList()  throws TestException {
+    throw new TestException(
+        "現在のこのAPIは利用出来ません。URLは「studentList」ではなく「students」を利用してください、");
   }
 
   /***
@@ -49,20 +57,19 @@ public class StudentController {
    * @return 受講生
    */
 
-  @GetMapping("/student/{id}")
+
   /*
+  @GetMapping("/student/{id}")
   public StudentDetail getStudent(@PathVariable @NotNull @NotEmpty String id){
     return service.searchStudent(id);
     }
   */
+
+  @GetMapping("/student/{id}")
   public StudentDetail getStudent(
       @PathVariable @NotBlank @Pattern(regexp = "^\\d+$") String id) {
     return service.searchStudent(id);
   }
-
-
-
-
 
   /***
    * 受講生詳細の登録を行います。
@@ -89,12 +96,4 @@ public class StudentController {
     service.updateStudent(studentDetail);
     return ResponseEntity.ok("更新処理が成功しました。");
   }
-
-  /*
-  @ExceptionHandler(TestException.class)
-  public ResponseEntity<String> handleTestException(TestException ex){
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-  }
-
-   */
 }
