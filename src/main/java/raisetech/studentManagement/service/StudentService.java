@@ -41,6 +41,7 @@ public class StudentService {
     return converter.convertStudentDetails(studentList, studentCourseList);
   }
 
+
   /***
    * 受講生詳細検索です。IDに紐づく受講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
    *
