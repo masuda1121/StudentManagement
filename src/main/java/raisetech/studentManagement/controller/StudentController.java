@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.studentManagement.domain.StudentDetail;
+import raisetech.studentManagement.exception.TestException;
 import raisetech.studentManagement.service.StudentService;
 
 /**
@@ -43,13 +44,13 @@ public class StudentController {
     return service.searchStudentList();
   }
 
-/*
-  @GetMapping("/studentList")
-  public List<StudentDetail> getStudentList()  throws TestException {
+  @Operation(summary = "例外発生", description = "受講生一覧検索で例外を発生させます。")
+  @GetMapping("/studentListException")
+  public List<StudentDetail> getStudentListException() throws TestException {
     throw new TestException(
-        "現在のこのAPIは利用出来ません。URLは「studentList」ではなく「students」を利用してください、");
+        "エラーが発生しました。");
   }
- */
+
 
   /***
    * 受講生詳細検索です。IDに紐づく任意の受講生の情報を取得します。
